@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StartPageComponent } from 'src/app/features/start-page/pages/start-page.component';
-import { RoutesConstant } from './routes.constant';
+import { RoutesConstant } from 'src/app/core/routing/routes.constant';
+import { StartPageComponent } from './pages/start-page.component';
 
 const routes: Routes = [
   {
     path: RoutesConstant.startPage.path,
     component: StartPageComponent,
-    pathMatch: 'full',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class StartPageRoutingModule {}
