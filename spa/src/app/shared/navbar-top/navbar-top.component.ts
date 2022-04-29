@@ -1,17 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-top',
   templateUrl: './navbar-top.component.html',
   styleUrls: ['./navbar-top.component.scss'],
 })
-export class NavbarTopComponent implements OnInit {
-  constructor(private readonly authService: AuthService) {}
+export class NavbarTopComponent {
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {}
-
-  public async login() {
-    await this.authService.login();
+  public async navigateToSignIn() {
+    this.router.navigate([`auth/sign-in`]);
   }
 }

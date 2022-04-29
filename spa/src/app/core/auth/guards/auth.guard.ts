@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, CanLoad } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanLoad {
   constructor(private readonly authService: AuthService) {}
 
   /**
@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
    *
    * @returns True when the user is authenticated, otherwise false.
    */
-  canActivate(): boolean {
-    return this.authService.isUserAuthenticated();
+  async canLoad(): Promise<boolean> {
+    return await this.authService.isUserAuthenticated();
   }
 }

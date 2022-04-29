@@ -1,6 +1,10 @@
-export const RoutesConstant = {
+export const ROUTES_CONSTANT = {
+  auth: {
+    path: 'auth',
+    url: '/auth',
+  },
   startPage: {
-    path: '',
+    path: 'start-page',
     url: '/',
   },
 } as const;

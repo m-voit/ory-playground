@@ -1,36 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Configuration, V0alpha2Api } from '@ory/kratos-client';
+import { Configuration, V0alpha2Api as KratosApi } from '@ory/client';
 import { AUTH_CONSTANT } from '../constants/auth.constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly kratosClient: V0alpha2Api;
+  private readonly kratosClient: KratosApi;
 
   constructor() {
-    this.kratosClient = new V0alpha2Api(
+    this.kratosClient = new KratosApi(
       new Configuration({ basePath: AUTH_CONSTANT.oryKratos.basePath })
     );
   }
 
-  isUserAuthenticated() {
-    // this.http.get('/sessions/whoami').subscribe((value: any) => {
-    //   if (value.statusCode === 200) {
-    //     this.identity = value.data;
-    //     return true;
-    //   }
-    //   return false;
-    // });
-
+  async isUserAuthenticated() {
     return true;
   }
 
   public async login() {
     const { data } =
       await this.kratosClient.initializeSelfServiceLoginFlowForBrowsers();
-
-    console.log(data);
 
     return data;
   }

@@ -1,15 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StartPageComponent } from './pages/start-page/start-page.component';
-
-
+import { NgModule } from '@angular/core';
+import { StartPageComponent } from './pages/start-page.component';
 
 @NgModule({
-  declarations: [
-    StartPageComponent
-  ],
-  imports: [
-    CommonModule
-  ]
+  declarations: [StartPageComponent],
+  imports: [CommonModule],
 })
-export class StartPageModule { }
+export class StartPageModule {}
