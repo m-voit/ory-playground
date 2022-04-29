@@ -1,0 +1,22 @@
+serve:
+  cookies:
+    same_site_mode: Lax
+
+urls:
+  self:
+    issuer: http://127.0.0.1:4444
+  consent: http://127.0.0.1:3000/consent
+  login: http://127.0.0.1:3000/login
+  logout: http://127.0.0.1:3000/logout
+
+secrets:
+  system:
+    - "qXPJHHVm55!TA99KoCdEtM9jhDa$356C!wdWB@*TtQHPX6zHTCHT5*!Cupucv#i3KxncBk88JS&4$^3"
+
+oidc:
+  subject_identifiers:
+    supported_types:
+      - pairwise
+      - public
+    pairwise:
+      salt: "R!Vk9u5DgL*BheNHhNiTUeAK54Brdium#5cjKQg#c%cVk@bQ$^n5%UDT#Jwsy#S6TteP^EXjLE$HXMt"

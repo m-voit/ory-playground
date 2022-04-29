@@ -39,15 +39,15 @@ selfservice:
 
     logout:
       after:
-        default_browser_return_url: http://127.0.0.1:4200/login
+        default_browser_return_url: http://127.0.0.1:4200/sign-in
 
     login:
-      ui_url: http://127.0.0.1:4200/login
+      ui_url: http://127.0.0.1:4200/sign-in
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: http://127.0.0.1:4200/registration
+      ui_url: http://127.0.0.1:4200/sign-up
       after:
         password:
           hooks:
