@@ -1,3 +1,12 @@
 <p>sign-in works!</p>
 
 {{ loginFlow }}
+
+<form [formGroup]="signInForm">
+  <div *ngFor="let uiNode of loginFlow?.ui?.nodes">
+    <label [for]="uiNode.meta.label?.id">{{ uiNode.meta.label?.text }}</label>
+    <input [id]="uiNode.meta.label?.id" [type]="uiNode.attributes" [formControlName]="" pInputText>
+  </div>
+</form>
+
+<p-button label="Sign In" (onClick)="signIn()"></p-button>

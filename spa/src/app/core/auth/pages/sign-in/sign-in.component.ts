@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { SelfServiceLoginFlow } from '@ory/client';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -7,13 +9,29 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-  loginFlow = {};
+  loginFlow!: SelfServiceLoginFlow;
 
-  constructor(private readonly authService: AuthService) {}
+  signInForm = this.fb.group({
+    csrf_token: [''],
+    identifier: [''],
+    password: [''],
+  });
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    this.loginFlow = await this.authService.login();
+    this.loginFlow = await this.authService.startSignInFlow();
 
-    console.log(this.loginFlow);
+    console.log(this.loginFlow.ui.nodes);
+  }
+
+  async signIn(): Promise<void> {
+    const loggedInSuccessfully = await this.authService.submitSignInFlow(
+      this.loginFlow.ui.action,
+      this.signInForm.getRawValue()
+    );
   }
 }
