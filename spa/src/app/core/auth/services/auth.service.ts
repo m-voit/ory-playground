@@ -6,12 +6,21 @@ import { AUTH_CONSTANT } from '../constants/auth.constant';
   providedIn: 'root',
 })
 export class AuthService {
-  // Initialize the Kratos client by setting the URL where Kratos is hosted.
-  private readonly kratosClient = new KratosApi(
-    new Configuration({ basePath: AUTH_CONSTANT.oryKratos.basePath })
-  );
+  private readonly kratosConfig: Configuration;
+  private readonly kratosClient: KratosApi;
 
-  constructor() {}
+  constructor() {
+    // Initialize the Kratos client by setting the URL where Kratos is hosted.
+    // and set with credentials to true, so the session cookie is sended alongside the requests.
+    this.kratosConfig = new Configuration({
+      basePath: AUTH_CONSTANT.oryKratos.basePath,
+      baseOptions: {
+        withCredentials: true,
+      },
+    });
+
+    this.kratosClient = new KratosApi(this.kratosConfig);
+  }
 
   /**
    * Check if the user is authenticated by checking if there is an active Kratos session.
@@ -21,7 +30,38 @@ export class AuthService {
   async isUserAuthenticated() {
     const { data } = await this.kratosClient.toSession();
 
-    return data.active;
+    return data?.active ?? false;
+  }
+
+  /**
+   * Start the Kratos sign up flow.
+   * This will redirect the user to the sign up page registered in Kratos.
+   *
+   * @returns The data required to render a custom sign up page.
+   */
+  public async startSignUpFlow() {
+    const { data } =
+      await this.kratosClient.initializeSelfServiceRegistrationFlowForBrowsers();
+
+    return data;
+  }
+
+  /**
+   * Complete the Kratos sign up flow with the users sign up data from the sign up page.
+   *
+   * @param flowId The id of the Kratos sign up flow. This is required, so Kratos knows which flow to complete.
+   * @param data The sign up data to submit.
+   *
+   * @returns If successful it will return 200 and set a session cookie
+   * otherwise it will return validation errors to be displayed in the sign up page.
+   */
+  public async submitSignUpFlow(flowId: string, data: any) {
+    const response = await this.kratosClient.submitSelfServiceRegistrationFlow(
+      flowId,
+      data
+    );
+
+    return response.status === 200;
   }
 
   /**
@@ -40,14 +80,15 @@ export class AuthService {
   /**
    * Complete the Kratos sign in flow with the users sign in data from the sign in page.
    *
-   * @param action The action to submit the form data to. This is the action returned by the Kratos
+   * @param flowId The id of the Kratos sign in flow. This is required, so Kratos knows which flow to complete.
    * @param data The sign in data to submit.
+   *
    * @returns If successful it will return 200 and set a session cookie
    * otherwise it will return validation errors to be displayed in the sign in page.
    */
-  public async submitSignInFlow(action: string, data: any) {
+  public async submitSignInFlow(flowId: string, data: any) {
     const response = await this.kratosClient.submitSelfServiceLoginFlow(
-      action,
+      flowId,
       undefined,
       data
     );
@@ -61,14 +102,14 @@ export class AuthService {
    *
    * @returns The logout URL if the user is authenticated, otherwise an empty string.
    */
-  public async logout() {
+  public async startSignOutFlow() {
     if (await this.isUserAuthenticated()) {
       const { data } =
         await this.kratosClient.createSelfServiceLogoutFlowUrlForBrowsers();
 
       return data.logout_url;
     } else {
-      return null;
+      return '';
     }
   }
 }
