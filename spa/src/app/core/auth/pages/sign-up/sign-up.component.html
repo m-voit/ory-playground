@@ -1,1 +1,21 @@
-<p>sign-up works!</p>
+<form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+  <label>E-Mail</label>
+  <input pInputText type="email" formControlName="traitsEmail" autocomplete="username"/>
+
+  <label>Password</label>
+  <input pInputText type="password" formControlName="password" autocomplete="new-password"/>
+
+  <label>First Name</label>
+  <input pInputText formControlName="traitsFirstName" />
+
+  <label>Last Name</label>
+  <input pInputText formControlName="traitsLastName" />
+
+  <button
+    pButton
+    label="Sign Up"
+    type="submit"
+    name="method"
+    value="password"
+  ></button>
+</form>
