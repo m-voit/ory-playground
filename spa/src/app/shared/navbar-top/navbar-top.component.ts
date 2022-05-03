@@ -9,7 +9,11 @@ import { Router } from '@angular/router';
 export class NavbarTopComponent {
   constructor(private router: Router) {}
 
-  public async navigateToSignIn() {
+  async navigateToSignIn() {
     this.router.navigate([`auth/sign-in`]);
+  }
+
+  async navigateToSignOut() {
+    this.router.navigate([`auth/sign-out`]);
   }
 }
