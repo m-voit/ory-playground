@@ -1,12 +1,27 @@
-<p>sign-in works!</p>
+<form [formGroup]="signInForm" (ngSubmit)="signIn()">
+  <label for="identifier">Email</label>
+  <input
+    id="identifier"
+    type="text"
+    formControlName="identifier"
+    autocomplete="username"
+    pInputText
+  />
 
-{{ loginFlow }}
+  <label for="password">Password</label>
+  <input
+    id="password"
+    type="password"
+    formControlName="password"
+    autocomplete="current-password"
+    pInputText
+  />
 
-<form [formGroup]="signInForm">
-  <div *ngFor="let uiNode of loginFlow?.ui?.nodes">
-    <label [for]="uiNode.meta.label?.id">{{ uiNode.meta.label?.text }}</label>
-    <input [id]="uiNode.meta.label?.id" [type]="uiNode.attributes" [formControlName]="" pInputText>
-  </div>
+  <button
+    pButton
+    label="Sign In"
+    type="submit"
+    name="method"
+    value="password"
+  ></button>
 </form>
-
-<p-button label="Sign In" (onClick)="signIn()"></p-button>
